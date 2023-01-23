@@ -1,16 +1,18 @@
-# nestjs-supabase-auth
+# nestjs-supabase
 
 ## Installation
 
 ### Install peer dependencies
 
 Using npm:
+
 ```
 npm install passport passport-jwt @nestjs/passport
 npm install --save-dev @types/passport-jwt
 ```
 
 Using yarn:
+
 ```
 yarn add passport passport-jwt @nestjs/passport
 yarn add -D @types/passport-jwt
@@ -19,26 +21,28 @@ yarn add -D @types/passport-jwt
 ### Install strategy
 
 Using npm:
+
 ```
-npm install nestjs-supabase-auth
+npm install nestjs-supabase
 ```
 
 Using yarn:
+
 ```
-yarn add nestjs-supabase-auth
+yarn add nestjs-supabase
 ```
 
 ## Example
 
 ### Extends the strategy to create your own strategy
 
-In this example, I'm passing supabase related options through dotenv and [env-cmd](https://github.com/toddbluhm/env-cmd) package. 
+In this example, I'm passing supabase related options through dotenv and [env-cmd](https://github.com/toddbluhm/env-cmd) package.
 
 ```ts
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt } from 'passport-jwt';
-import { SupabaseAuthStrategy } from 'nestjs-supabase-auth';
+import { SupabaseAuthStrategy } from 'nestjs-supabase';
 
 @Injectable()
 export class SupabaseStrategy extends PassportStrategy(
@@ -59,7 +63,7 @@ export class SupabaseStrategy extends PassportStrategy(
     super.validate(payload);
   }
 
-  authenticate(req) { 
+  authenticate(req) {
     super.authenticate(req);
   }
 }
@@ -77,20 +81,18 @@ import supabase from '../../supabase';
 
 @Module({
   imports: [PassportModule],
-  providers: [
-    AuthService,
-    AuthResolver,
-    SupabaseStrategy,
-  ],
+  providers: [AuthService, AuthResolver, SupabaseStrategy],
   exports: [AuthService, SupabaseStrategy],
 })
 export class AuthModule {}
 ```
+
 ### Protect your routes
 
 #### Example for Graphql
 
 gql-auth-guard.ts
+
 ```ts
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
@@ -105,7 +107,7 @@ export class GqlAuthGuard extends AuthGuard('supabase') {
 }
 ```
 
-auth.resolver - You can use the guard in any resolver. 
+auth.resolver - You can use the guard in any resolver.
 
 ```ts
 import { UseGuards } from '@nestjs/common';
@@ -136,8 +138,8 @@ export class AuthResolver {
 ### CurrentUser decorator
 
 ```ts
-import { createParamDecorator, ExecutionContext } from "@nestjs/common";
-import { GqlExecutionContext } from "@nestjs/graphql";
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import { GqlExecutionContext } from '@nestjs/graphql';
 
 export const CurrentUser = createParamDecorator(
   (_data: unknown, context: ExecutionContext) => {
@@ -145,5 +147,4 @@ export const CurrentUser = createParamDecorator(
     return ctx.getContext().req.user;
   },
 );
-
 ```

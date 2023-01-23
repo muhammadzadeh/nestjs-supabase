@@ -46,8 +46,8 @@ export class SupabaseAuthStrategy extends Strategy {
       return;
     }
 
-    this.supabase.auth.api
-      .getUser(idToken)
+    this.supabase.auth.admin
+      .getUserById(idToken)
       .then((res) => this.validateSupabaseResponse(res))
       .catch((err) => {
         this.fail(err.message, 401);
