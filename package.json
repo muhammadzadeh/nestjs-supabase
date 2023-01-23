@@ -32,9 +32,9 @@
   "author": "Atsuhiro Teshima",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/muhammadzadeh/nestjs-supabase-auth/issues"
+    "url": "https://github.com/muhammadzadeh/nestjs-supabase/issues"
   },
-  "homepage": "https://github.com/muhammadzadeh/nestjs-supabase-auth",
+  "homepage": "https://github.com/muhammadzadeh/nestjs-supabase",
   "devDependencies": {
     "@supabase/supabase-js": "^2.4.1",
     "@types/jest": "^26.0.20",
