@@ -5,6 +5,7 @@ import { Strategy } from "passport-strategy";
 import {
   createClient,
   SupabaseClient,
+  UserResponse,
 } from "@supabase/supabase-js";
 import { UNAUTHORIZED, SUPABASE_AUTH } from "./constants";
 import { SupabaseAuthUser } from "./user.type";
@@ -46,16 +47,15 @@ export class SupabaseAuthStrategy extends Strategy {
       return;
     }
 
-    this.supabase.auth.admin
-      .getUserById(idToken)
-      .then((res) => this.validateSupabaseResponse(res))
+    this.supabase.auth.getUser(idToken)
+      .then((res: UserResponse) => this.validateSupabaseResponse(res))
       .catch((err) => {
         this.fail(err.message, 401);
       });
   }
 
-  private async validateSupabaseResponse({ data }: any) {
-    const result = await this.validate(data);
+  private async validateSupabaseResponse({ data }: UserResponse) {
+    const result = await this.validate(data.user);
     if (result) {
       this.success(result, {});
       return;
